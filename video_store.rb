@@ -6,6 +6,7 @@ require 'dm-timestamps'
 require 'ostruct'
 
 
+
 class Hash
   def self.to_ostructs(obj, memo={})
     return obj unless obj.is_a? Hash
@@ -33,6 +34,9 @@ class Video
   property :length,       Integer
   property :title,        String
   property :updated_at,   DateTime
+  
+  
+  
 end
 
 class Attachment
@@ -83,8 +87,8 @@ post '/video/create' do
   video            = Video.new(params[:video])
   image_attachment = video.attachments.new
   video_attachment = video.attachments.new
-  image_attachment.handle_upload(params['image-file'])
-  video_attachment.handle_upload(params['video-file'])
+  #image_attachment.handle_upload(params['image-file'])
+  #video_attachment.handle_upload(params['video-file'])
   if video.save
     @message = 'Video was saved.'
   else
@@ -99,8 +103,8 @@ get '/video/new' do
 end
 
 get '/video/list' do
-  @title = 'Available Videos'
-  @videos = Video.all(:order => [:title.desc])
+  @title = 'Available Videos'  
+  @videos = Video.all.paginate(:page => params[:page], :per_page => 1,:order => [:title.desc])
   haml :list
 end
 

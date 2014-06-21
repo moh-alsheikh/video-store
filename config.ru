@@ -3,6 +3,8 @@ require 'bundler/setup'
 require 'sinatra'
 require 'haml'
 require './video_store'
+require 'will_paginate'
+require 'will_paginate/data_mapper'
 
 set :environment, :development
 set :run, false
